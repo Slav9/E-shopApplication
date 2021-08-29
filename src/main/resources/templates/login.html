@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Регистрация</title>
+    <style>
+form {
+
+  margin: 0 auto;
+  width: 400px;
+  padding: 1em;
+  border: 1px solid #CCC;
+  border-radius: 1em;
+}
+
+    </style>
+</head>
+<body>
+<div th:if="${param.error}">
+    Invalid username and password.
+</div>
+<div th:if="${param.logout}">
+    You have been logged out.
+</div>
+<h1 align="center">Войти</h1>
+<form th:action="@{/login}" method="post">
+    <div align="center"><label> User Name : <input type="text" name="username"/> </label></div>
+    <div align="center"><label> Password: <input type="password" name="password"/> </label></div>
+    <div align="center"><input type="submit" value="Sign In"/></div>
+</form>
+<div>
+    <span> Ещё нет аккаунта?</span>
+    <a href="/registration">Зарегистрироваться</a>
+</div>
+
+</body>
+</html>

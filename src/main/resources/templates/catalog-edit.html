@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="utf-8">
+
+</head>
+<body>
+
+<a href="/cart">Перейти в корзину</a>
+<a href="/catalog">Перейти в каталог</a>
+
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+
+<div class ="container mt-5 mb-2">
+    <h4 align="center">Редактирование товара</h4>
+    <div th:each="el:${tovar}">
+    <form th:action="'/catalog/'+${el.id}+'/edit'" method="post">
+        <input type="text" th:value="${el.name}" name="name" placeholder="Введите название товара" class="form-control"><br>
+        <input type="text" th:value="${el.art}" name="art" placeholder="Введите картинку товара" class="form-control"><br>
+        <input type="number" th:value="${el.price}" name="price" placeholder="Введите цену товара" class="form-control"><br>
+        <input type="text" th:value="${el.articul}" name="articul" placeholder="Введите артикул товара" class="form-control"><br>
+        <button type="submit" class="btn btn-success">Сохранить изменения</button>
+    </form>
+    </div>
+</div>
+</body>

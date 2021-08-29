@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="utf-8">
+
+</head>
+<body>
+
+<a href="/cart">Перейти в корзину</a>
+<a href="/catalog">Перейти в каталог</a>
+
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+
+<div class ="container mt-5 mb-2">
+    <h4 align="center">Добавить товар</h4>
+    <form th:action="@{/catalog/add}" method="post">
+        <input type="text" name="name" placeholder="Введите название товара" class="form-control"><br>
+        <input type="text" name="art" placeholder="Введите картинку товара" class="form-control"><br>
+        <input type="number" name="price" placeholder="Введите цену товара" class="form-control"><br>
+        <input type="text" name="articul" placeholder="Введите артикул товара" class="form-control"><br>
+        <button type="submit" class="btn btn-success">Добавить товар</button>
+    </form>
+</div>
+</body>

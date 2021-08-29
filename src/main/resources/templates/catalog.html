@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:insert="blocks/top::top"></div>
+<body>
+
+    <div class="container mt-5">
+        <h1 align="center">Каталог товаров</h1>
+        <div th:each="el:${tovars}" class="alert alert-info mt-2">
+            <p> <b>Наименование товара:</b> <span th:text ="${el.name}"/></p>
+            <p> <b>Картинка товара:</b> <span th:text="${el.art}"/></p>
+            <p> <b>Цена товара:</b> <span th:text="${el.price}+' ₽'"/></p>
+            <p> <b>Продавец товара:</b> <span th:text="${el.vendorName}"/></p>
+            <a th:href="'/catalog/'+${el.id}+ '/edit'">Редактировать товар</a>
+            <div align="right"><form  th:action="remove+${el.id}" method="post">
+                <button class="btn btn-warning" type="submit">Удалить</button>
+            </form></div>
+        </div>
+    </div>
+
+
+    <a href="/cart">Перейти в корзину</a>
+    <a href="/catalog/add">Добавить товар</a>
+
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+
+
+</body>
