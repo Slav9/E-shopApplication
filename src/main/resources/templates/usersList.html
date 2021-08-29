@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:insert="blocks/top::top"></div>
+<body>
+<a href="/catalog">Перейти в каталог</a>
+<div class="container mt-5">
+    <h1 align="center">Список пользователей</h1>
+    <div th:each="el:${users}" class="alert alert-dark mt-2">
+        <p> <b>Логин пользователя:</b> <span th:text ="${el.username}"/></p>
+        <p> <b>Роли пользователя:</b> <span th:text="${#strings.setJoin(el.roles, ', ')}"/></p>
+         <a th:href="'/users/'+${el.id}">Редактировать</a>
+    </div>
+</div>
+
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
