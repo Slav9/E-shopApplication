@@ -15,7 +15,6 @@
     <div th:each="el:${tovar}">
     <form th:action="'/catalog/'+${el.id}+'/edit'" method="post">
         <input type="text" th:value="${el.name}" name="name" placeholder="Введите название товара" class="form-control"><br>
-        <input type="text" th:value="${el.art}" name="art" placeholder="Введите картинку товара" class="form-control"><br>
         <input type="number" th:value="${el.price}" name="price" placeholder="Введите цену товара" class="form-control"><br>
         <input type="text" th:value="${el.articul}" name="articul" placeholder="Введите артикул товара" class="form-control"><br>
         <button type="submit" class="btn btn-success">Сохранить изменения</button>

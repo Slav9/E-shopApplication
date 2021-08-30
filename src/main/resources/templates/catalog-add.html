@@ -12,9 +12,9 @@
 
 <div class ="container mt-5 mb-2">
     <h4 align="center">Добавить товар</h4>
-    <form th:action="@{/catalog/add}" method="post">
+    <form th:action="@{/catalog/add}" method="post" enctype="multipart/form-data">
         <input type="text" name="name" placeholder="Введите название товара" class="form-control"><br>
-        <input type="text" name="art" placeholder="Введите картинку товара" class="form-control"><br>
+        <input type="file" name="file" placeholder="Добавьте картинку товара" class="form-control"><br>
         <input type="number" name="price" placeholder="Введите цену товара" class="form-control"><br>
         <input type="text" name="articul" placeholder="Введите артикул товара" class="form-control"><br>
         <button type="submit" class="btn btn-success">Добавить товар</button>

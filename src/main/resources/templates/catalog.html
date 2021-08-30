@@ -6,12 +6,17 @@
 <a href="/cart">Перейти в корзину</a>
 <a href="/catalog/add">Добавить товар</a>
 <a href="/users">Список пользователей</a>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
 
     <div class="container mt-5">
         <h1 align="center">Каталог товаров</h1>
         <div th:each="el:${tovars}" class="alert alert-info mt-2">
             <p> <b>Наименование товара:</b> <span th:text ="${el.name}"/></p>
-            <p> <b>Картинка товара:</b> <span th:text="${el.art}"/></p>
+            <div align="center" th:if="${el.filename != null}">
+                <img th:src="@{/img/{filename}(filename = ${el.filename})}">
+            </div>
             <p> <b>Цена товара:</b> <span th:text="${el.price}+' ₽'"/></p>
             <p> <b>Продавец товара:</b> <span th:text="${el.vendorName}"/></p>
             <a th:href="'/catalog/'+${el.id}+ '/edit'">Редактировать товар</a>
@@ -24,9 +29,7 @@
 
 
 
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
-    </form>
+
 
 
 </body>

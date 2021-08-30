@@ -9,8 +9,16 @@ public class tovar {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String name, art, articul;
+    private String name, articul,filename;
     private int price;
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -52,14 +60,6 @@ public class tovar {
         this.name = name;
     }
 
-    public String getArt() {
-        return art;
-    }
-
-    public void setArt(String art) {
-        this.art = art;
-    }
-
     public int getPrice() {
         return price;
     }
@@ -70,9 +70,8 @@ public class tovar {
 
     tovar(){}
 
-    public tovar(String name, String art,int price, String articul, Users vendor) {
+    public tovar(String name,int price, String articul, Users vendor) {
         this.name = name;
-        this.art = art;
         this.price = price;
         this.articul = articul;
         this.vendor = vendor;
