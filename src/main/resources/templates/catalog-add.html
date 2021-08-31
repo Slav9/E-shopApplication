@@ -3,12 +3,7 @@
 <div th:insert="blocks/top::top"></div>
 <body>
 
-<a href="/cart">Перейти в корзину</a>
-<a href="/catalog">Перейти в каталог</a>
-
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
+<div th:insert="blocks/navbar::navbar"></div>
 
 <div class ="container mt-5 mb-2">
     <h4 align="center">Добавить товар</h4>

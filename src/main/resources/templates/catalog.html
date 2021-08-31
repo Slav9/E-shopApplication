@@ -3,24 +3,21 @@
 <div th:insert="blocks/top::top"></div>
 <body>
 
-<a href="/cart">Перейти в корзину</a>
-<a href="/catalog/add">Добавить товар</a>
-<a href="/users">Список пользователей</a>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
+<div th:insert="blocks/navbar::navbar"></div>
+
+
 
     <div class="container mt-5">
         <h1 align="center">Каталог товаров</h1>
         <div th:each="el:${tovars}" class="alert alert-info mt-2">
             <p> <b>Наименование товара:</b> <span th:text ="${el.name}"/></p>
             <div align="center" th:if="${el.filename != null}">
-                <img th:src="@{/img/{filename}(filename = ${el.filename})}">
+                <img th:src="@{/img/{filename}(filename = ${el.filename})}" alt="" width="800" height="400">
             </div>
             <p> <b>Цена товара:</b> <span th:text="${el.price}+' ₽'"/></p>
             <p> <b>Продавец товара:</b> <span th:text="${el.vendorName}"/></p>
-            <a th:href="'/catalog/'+${el.id}+ '/edit'">Редактировать товар</a>
-            <div align="right"><form  th:action="remove+${el.id}" method="post">
+            <a th:if="${#authorization.expression('hasAuthority(''VENDOR'')')}" th:href="'/catalog/'+${el.id}+ '/edit'">Редактировать товар</a>
+            <div th:if="${#authorization.expression('hasAuthority(''VENDOR'')')}" align="center"><form  th:action="remove+${el.id}" method="post">
                 <button class="btn btn-outline-danger" type="submit">Удалить</button>
             </form></div>
         </div>
