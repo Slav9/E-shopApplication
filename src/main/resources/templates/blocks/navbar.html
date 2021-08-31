@@ -1,0 +1,46 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<div th:fragment="navbar">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">Shopcart</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div th:if="${#authorization.expression('hasAuthority(''USER'')')}" class="collapse navbar-collapse" id="navbarSupportedContent" >
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/catalog" >Каталог</a>
+            </li>
+            <li th:if="${#authorization.expression('hasAuthority(''VENDOR'')')}" class="nav-item" >
+                <a class="nav-link" href="/catalog/add">Добавить товар</a>
+            </li>
+            <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-item">
+                <a class="nav-link" href="/users">Список пользователей</a>
+            </li>
+            <li class="nav-item">
+                <form th:action="@{/logout}" method="post" class="nav-link">
+                    <input type="submit" value="Sign Out"/>
+                </form>
+            </li>
+        </ul>
+        <ul class="navbar-nav mx-auto">
+            <li class="nav-item">
+                <span> Здравствуйте, <span th:text="${#authentication.getPrincipal().getUsername()}"></span></span>
+            </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="/cart">
+                <img th:src="@{/img/{filename}(filename = 3081797.png)}" alt="" width="30" height="24" class="d-inline-block align-text-top">
+                В корзину
+            </a>
+        </li>
+        </ul>
+
+
+    </div>
+</nav>
+</div>
+
+
