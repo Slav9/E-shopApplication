@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Регистрация</title>
+    <style>
+form {
+
+  margin: 0 auto;
+  width: 400px;
+  padding: 1em;
+  border: 1px solid #CCC;
+  border-radius: 1em;
+}
+
+    </style>
+</head>
+<body>
+<h5><span th:text="${#authentication.getPrincipal().getUsername()}"></span></h5>
+<form th:action="@{/users/profile}" method="post">
+    <div align="center"><label> Email: <input type="email" name="email"/> </label></div>
+    <div align="center"><label> Password: <input type="password" name="password"/> </label></div>
+    <button type="submit" class="btn btn-success">Сохранить изменения</button>
+</form>
+
+
+</body>
+</html>
