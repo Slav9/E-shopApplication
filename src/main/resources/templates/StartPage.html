@@ -1,7 +1,8 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
 <div th:insert="blocks/top::top"></div>
 <body>
 <div th:insert="blocks/navbar::navbar"></div>
-<h1 align="center" class="container  mt-5">Hello, guest</h1>
+<h1 align="center" class="container  mt-5">Добро пожаловать в мой магазин</h1>
+<div align="center"><a th:href = "@{/login}">Перейти к регистрации</a></div>
 </body>
