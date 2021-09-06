@@ -1,6 +1,9 @@
 package com.example.ShopCart.models;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class tovar {
@@ -9,7 +12,11 @@ public class tovar {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String name, articul,filename;
+    @NotBlank(message = "Please fill the name")
+    @Length(max = 40,message = "Product name is too long (more than 40 characters)")
+    private String name;
+    private String articul;
+    private String filename;
     private int price;
 
     public String getFilename() {
