@@ -11,7 +11,7 @@ import java.util.Set;
 @Table(name="usr")
 public class Users implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String username;
