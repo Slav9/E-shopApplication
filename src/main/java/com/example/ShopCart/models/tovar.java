@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class tovar {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String name, articul,filename;
