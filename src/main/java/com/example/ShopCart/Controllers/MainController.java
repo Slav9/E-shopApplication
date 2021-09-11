@@ -9,17 +9,23 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Controller
 public class MainController {
@@ -51,35 +57,43 @@ public class MainController {
     @PreAuthorize("hasAuthority('VENDOR')")
     @GetMapping("/catalog/add")
     public String catalogAdd(Model model) {
+        model.addAttribute("tovar",new tovar());
         return "catalog-add";
     }
 
     @PreAuthorize("hasAuthority('VENDOR')")
     @PostMapping ("/catalog/add")
     public String addTovar(@AuthenticationPrincipal Users user,
-                           @RequestParam String name, @RequestParam int price, @RequestParam String articul,
-                           @RequestParam("file") MultipartFile file,
-                           Model model) throws IOException {
-        tovar tovar = new tovar(name,price,articul,user);
+                           @Valid tovar tovar,
+                           BindingResult bindingResult,
+                           Model model,
+                           @RequestParam("file") MultipartFile file) throws IOException {
+        tovar.setVendor(user);
 
-        if(!file.isEmpty()){
-            File uploadDir = new File(uploadPath);
+        if(bindingResult.hasErrors()){
+            return "catalog-add";
+        } else {
+            if (!file.isEmpty()) {
+                File uploadDir = new File(uploadPath);
 
-            if(!uploadDir.exists()){
-                uploadDir.mkdir();
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdir();
+                }
+
+                String uuidFile = UUID.randomUUID().toString();
+                String resultFilename = uuidFile + "." + file.getOriginalFilename();
+
+                file.transferTo(new File(uploadPath + "/" + resultFilename));
+
+                tovar.setFilename(resultFilename);
             }
 
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFilename = uuidFile + "." + file.getOriginalFilename();
 
-            file.transferTo(new File(uploadPath + "/" + resultFilename));
-
-            tovar.setFilename(resultFilename);
+            allgoodsRepository.save(tovar);
         }
-
-        allgoodsRepository.save(tovar);
         return "redirect:/catalog";
     }
+
 
 
     @PreAuthorize("hasAuthority('VENDOR')")
@@ -96,18 +110,36 @@ public class MainController {
         Optional <tovar> tovar= allgoodsRepository.findById(id);
         ArrayList <tovar> tov = new ArrayList<>();
         tovar.ifPresent(tov::add);
-        model.addAttribute("tovar",tov);
+        model.addAttribute("tovarList",tov);
+        model.addAttribute("tovar",new tovar());
         return "catalog-edit";
     }
 
     @PreAuthorize("hasAuthority('VENDOR')")
     @PostMapping ("/catalog/{id}/edit")
-    public String edit(@PathVariable(value = "id") long id, @RequestParam String name,@RequestParam String articul,@RequestParam int price, Model model){
-        tovar tovar = allgoodsRepository.findById(id).orElseThrow();
-        tovar.setName(name);
-        tovar.setArticul(articul);
-        tovar.setPrice(price);
-        allgoodsRepository.save(tovar);
+    public String edit(@AuthenticationPrincipal Users user,
+                       @Valid tovar tovar,BindingResult bindingResult, Model model,
+                       @RequestParam("file") MultipartFile file) throws IOException{
+        tovar.setVendor(user);
+        if(bindingResult.hasErrors()){
+            return "catalog-edit";
+        }  else {
+                if (!file.isEmpty()) {
+                    File uploadDir = new File(uploadPath);
+
+                    if (!uploadDir.exists()) {
+                        uploadDir.mkdir();
+                    }
+
+                    String uuidFile = UUID.randomUUID().toString();
+                    String resultFilename = uuidFile + "." + file.getOriginalFilename();
+
+                    file.transferTo(new File(uploadPath + "/" + resultFilename));
+
+                    tovar.setFilename(resultFilename);
+                }
+            allgoodsRepository.save(tovar);
+        }
         return "redirect:/catalog";
     }
 

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <div th:insert="blocks/top::top"></div>
 <body>
 
@@ -7,12 +7,31 @@
 
 <div class ="container mt-5 mb-2">
     <h4 align="center">Добавить товар</h4>
-    <form th:action="@{/catalog/add}" method="post" enctype="multipart/form-data">
-        <input type="text" name="name" placeholder="Введите название товара" class="form-control"><br>
+    <form th:action="@{/catalog/add}" th:object="${tovar}" method="post" enctype="multipart/form-data">
+
+        <div class="input-group has-validation mb-4">
+            <label for="name"></label>
+            <input type="text" th:field="*{name}" id="name" placeholder="Введите название товара" class="form-control is-invalid"><br>
+            <div class="invalid-feedback " th:if="${#fields.hasErrors('name')}" th:errors="*{name}" ></div>
+        </div>
+
         <input type="file" name="file" placeholder="Добавьте картинку товара" class="form-control"><br>
-        <input type="number" name="price" placeholder="Введите цену товара" class="form-control"><br>
-        <input type="text" name="articul" placeholder="Введите артикул товара" class="form-control"><br>
+
+        <div class="input-group has-validation mb-4">
+            <label for="price" class="form-label"></label>
+            <input type="number" th:field="*{price}" id="price" placeholder="Введите цену товара" class="form-control is-invalid"><br>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}" ></div>
+        </div>
+
+        <div class="input-group has-validation mb-4">
+            <label for="articul"></label>
+            <input type="number" th:field="*{articul}" id="articul" placeholder="Введите артикул товара" class="form-control is-invalid"><br>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('articul')}" th:errors="*{articul}"></div>
+        </div>
+
         <button type="submit" class="btn btn-success">Добавить товар</button>
+
     </form>
 </div>
 </body>
+

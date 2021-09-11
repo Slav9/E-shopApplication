@@ -3,7 +3,10 @@ package com.example.ShopCart.models;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class tovar {
@@ -12,11 +15,14 @@ public class tovar {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @NotBlank(message = "Please fill the name")
-    @Length(max = 40,message = "Product name is too long (more than 40 characters)")
+    @NotBlank(message = "Please fill the name field")
+    @Length(max = 40, min = 5, message = "Name must be between 5 and 40 characters")
     private String name;
+    @NotBlank(message = "Please fill the articul field")
+    @Length(max = 6,min = 6,message = "Articul is combination of 6 characters")
     private String articul;
     private String filename;
+    @Min(value = 1,message = "Minimal price is 1₽")
     private int price;
 
     public String getFilename() {
@@ -75,7 +81,7 @@ public class tovar {
         this.price = price;
     }
 
-    tovar(){}
+    public tovar(){}
 
     public tovar(String name,int price, String articul, Users vendor) {
         this.name = name;
