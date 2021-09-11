@@ -109,7 +109,7 @@ public class UserService implements UserDetailsService {
         }
 
         if(!ObjectUtils.isEmpty(password)){
-            users.setPassword(password);
+            users.setPassword(passwordEncoder.encode(password));
         }
 
         usersPerository.save(users);
