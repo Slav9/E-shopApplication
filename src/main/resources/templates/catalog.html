@@ -7,7 +7,7 @@
 
     <div class="container mt-5">
         <h1 align="center">Каталог товаров</h1>
-        <div th:each="el:${tovars}" class="alert alert-info mt-2">
+        <div th:each="el:${tovars}"  class="alert alert-info mt-2">
 
             <p> <b>Наименование товара:</b> <span th:text ="${el.name}"/></p>
 
@@ -23,10 +23,46 @@
 
             <a th:if="${#authorization.expression('hasAuthority(''VENDOR'')')}" th:href="'/catalog/'+${el.id}+ '/edit'">Редактировать товар</a>
 
-            <div th:if="${#authorization.expression('hasAuthority(''VENDOR'')')}" align="center"><form  th:action="remove+${el.id}" method="post">
-                <button class="btn btn-outline-danger" type="submit">Удалить</button>
+            <div th:if="${#authorization.expression('hasAuthority(''VENDOR'')')}" align="center">
+                <form  th:action="remove+${el.id}" method="post">
+                <button class="btn btn-outline-danger" type="submit">Удалить</button></form>
+            </div>
+            </div>
 
-            </form></div></div>
+            <div align="right">
+
+                <button class="btn btn-success" type="button" data-bs-toggle="modal" th:attr="data-bs-target='#exampleModal'+*{el.id}" >Добавить товар в корзину</button>
+
+                <div class="modal fade" th:id="*{'exampleModal'+{el.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Add to cart</h5>
+                                <button type="button" class=" btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="card">
+                                    <img th:src="@{/img/{filename}(filename = ${el.filename})}" alt="" width="200" height="100" class="rounded mx-auto d-block mt-3">
+                                    <div class="card-body">
+                                        <form action="/addtocart" method="post">
+                                            <input type="hidden" name="id" th:value="${el.id}"/>
+                                            <input type="number" min="1" value="1" name="quantity" class="form-control" placeholder="Введите количество" />
+                                            <button class="btn btn-outline-success mt-2" type="submit" >Submit</button>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
         </div>
     </div>
 
@@ -35,5 +71,5 @@
 
 
 
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
 </body>
