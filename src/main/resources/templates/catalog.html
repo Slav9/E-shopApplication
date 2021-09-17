@@ -47,7 +47,7 @@
                                 <div class="card">
                                     <img th:src="@{/img/{filename}(filename = ${el.filename})}" alt="" width="200" height="100" class="rounded mx-auto d-block mt-3">
                                     <div class="card-body">
-                                        <form action="/addtocart" method="post">
+                                        <form th:action="@{/addtocart}" method="post">
                                             <input type="hidden" name="id" th:value="${el.id}"/>
                                             <input type="number" min="1" value="1" name="quantity" class="form-control" placeholder="Введите количество" />
                                             <button class="btn btn-outline-success mt-2" type="submit" >Submit</button>

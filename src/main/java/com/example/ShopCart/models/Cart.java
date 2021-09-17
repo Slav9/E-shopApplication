@@ -18,6 +18,10 @@ public class Cart {
     @OneToMany(cascade = CascadeType.ALL)
     private Collection <CartItem> items;
 
+    private String sessionValue;
+
+    public Cart(){}
+
     public Long getId() {
         return id;
     }
@@ -46,5 +50,13 @@ public class Cart {
 
     public void setItems(Collection<CartItem> items) {
         this.items = items;
+    }
+
+    public String getSessionValue() {
+        return sessionValue;
+    }
+
+    public void setSessionValue(String sessionValue) {
+        this.sessionValue = sessionValue;
     }
 }
