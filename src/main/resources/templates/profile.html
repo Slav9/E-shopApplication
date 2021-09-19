@@ -15,11 +15,14 @@ form {
     </style>
 </head>
 <body>
-<h5><span th:text="${#authentication.getPrincipal().getUsername()}"></span></h5>
+<h3 align="center"> Личный кабинет пользователя <span th:text="${#authentication.getPrincipal().getUsername()}"></span></h3>
 <form th:action="@{/users/profile}" method="post">
+
     <div align="center"><label> Email: <input type="email" name="email"/> </label></div>
+
     <div align="center"><label> Password: <input type="password" name="password"/> </label></div>
-    <button type="submit" class="btn btn-success">Сохранить изменения</button>
+
+    <div align="center"><button type="submit" class="btn btn-success">Сохранить изменения</button></div>
 </form>
 
 

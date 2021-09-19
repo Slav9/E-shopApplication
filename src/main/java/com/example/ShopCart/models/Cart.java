@@ -2,6 +2,8 @@ package com.example.ShopCart.models;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="shoppingcart")
@@ -15,8 +17,8 @@ public class Cart {
     @Transient
     private int itemsNumber;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private Collection <CartItem> items;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<CartItem> items = new HashSet<CartItem>();
 
     private String sessionValue;
 
@@ -44,11 +46,11 @@ public class Cart {
     }
 
 
-    public Collection<CartItem> getItems() {
+    public Set<CartItem> getItems() {
         return items;
     }
 
-    public void setItems(Collection<CartItem> items) {
+    public void setItems(Set<CartItem> items) {
         this.items = items;
     }
 

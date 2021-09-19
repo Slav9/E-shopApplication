@@ -23,7 +23,7 @@ public class CartController {
 
 
     @GetMapping("/cart")
-    public String cart(Model model) {
+    public String showCart(Model model) {
         return "cart";
     }
 
