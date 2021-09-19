@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.Set;
 
 @Service
 public class CartService {
@@ -33,17 +34,26 @@ public class CartService {
     public Cart addToShoppingCart(Long id, String sessionValue, int quantity) {
         Cart cart = cartReposiitory.findBySessionValue(sessionValue);
         tovar t = allGoodsRepository.findById(id).orElseThrow();
-        for(CartItem item: cart.getItems()){
-            if(t.getId().equals(item.getTovar().getId())){
-                item.setQuantity(item.getQuantity()+quantity);
-                return cartReposiitory.save(cart);
+        Boolean productIsInCart = false;
+        if (cart!=null) {
+            Set<CartItem> items=cart.getItems();
+            for (CartItem item : items) {
+                if (item.getTovar().equals(t)) {
+                    productIsInCart=true;
+                    item.setQuantity(item.getQuantity()+quantity);
+                    cart.setItems(items);
+                    return cartReposiitory.saveAndFlush(cart);
+                }
             }
         }
-        CartItem cartItem = new CartItem();
-        cartItem.setQuantity(quantity);
-        cartItem.setTovar(t);
-        cart.getItems().add(cartItem);
-        return cartReposiitory.save(cart);
+        if(!productIsInCart&&(cart!=null)) {
+            CartItem cartItem1 = new CartItem();
+            cartItem1.setQuantity(quantity);
+            cartItem1.setTovar(t);
+            cart.getItems().add(cartItem1);
+            return cartReposiitory.saveAndFlush(cart);
+        }
 
+        return this.addCart(id, sessionValue, quantity);
     }
 }
