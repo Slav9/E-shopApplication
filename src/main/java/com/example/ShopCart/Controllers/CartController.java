@@ -23,7 +23,15 @@ public class CartController {
 
 
     @GetMapping("/cart")
-    public String showCart(Model model) {
+    public String showCart(HttpSession session, Model model) {
+        String sessionValue = (String) session.getAttribute("sessionValue");
+        if(sessionValue==null){
+        model.addAttribute("cart",new Cart());
+        }
+        else {
+            Cart cart = cartService.getCartBySessionValue(sessionValue);
+            model.addAttribute("cart",cart);
+        }
         return "cart";
     }
 

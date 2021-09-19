@@ -56,4 +56,8 @@ public class CartService {
 
         return this.addCart(id, sessionValue, quantity);
     }
+
+    public Cart getCartBySessionValue(String sessionValue) {
+        return cartReposiitory.findBySessionValue(sessionValue);
+    }
 }

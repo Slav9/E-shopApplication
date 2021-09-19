@@ -116,7 +116,7 @@ public class MainController {
 
         if(bindingResult.hasErrors()){
             return "catalog-edit";
-        }  else if(tovar.getVendorName().equals( user.getUsername())) {
+        }  else  {
                 if (!file.isEmpty()) {
                     File uploadDir = new File(uploadPath);
 
