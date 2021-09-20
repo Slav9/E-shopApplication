@@ -39,7 +39,6 @@ public class Cart {
         return sum;
     }
 
-
     public int getItemsNumber() {
         return this.items.size();
     }
