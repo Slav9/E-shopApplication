@@ -3,12 +3,12 @@ package com.example.ShopCart.Service;
 import com.example.ShopCart.models.Cart;
 import com.example.ShopCart.models.CartItem;
 import com.example.ShopCart.models.tovar;
+import com.example.ShopCart.repo.CartItemRepository;
 import com.example.ShopCart.repo.CartReposiitory;
 import com.example.ShopCart.repo.allGoodsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
 import java.util.Set;
 
 @Service
@@ -18,6 +18,8 @@ public class CartService {
     private CartReposiitory cartReposiitory;
     @Autowired
     private allGoodsRepository allGoodsRepository;
+    @Autowired
+    private CartItemRepository cartItemRepository;
 
 
     public Cart addCart(Long id, String sessionValue, int quantity) {
@@ -34,7 +36,7 @@ public class CartService {
     public Cart addToShoppingCart(Long id, String sessionValue, int quantity) {
         Cart cart = cartReposiitory.findBySessionValue(sessionValue);
         tovar t = allGoodsRepository.findById(id).orElseThrow();
-        Boolean productIsInCart = false;
+        boolean productIsInCart = false;
         if (cart!=null) {
             Set<CartItem> items=cart.getItems();
             for (CartItem item : items) {
@@ -46,7 +48,7 @@ public class CartService {
                 }
             }
         }
-        if(!productIsInCart&&(cart!=null)) {
+        if(!productIsInCart && cart != null) {
             CartItem cartItem1 = new CartItem();
             cartItem1.setQuantity(quantity);
             cartItem1.setTovar(t);
@@ -59,5 +61,32 @@ public class CartService {
 
     public Cart getCartBySessionValue(String sessionValue) {
         return cartReposiitory.findBySessionValue(sessionValue);
+    }
+
+    public CartItem updateCartItem(Long id, int quantity) {
+        CartItem cartItem = cartItemRepository.findById(id).orElseThrow();
+        cartItem.setQuantity(quantity);
+        return cartItemRepository.saveAndFlush(cartItem);
+    }
+
+    public Cart removeCartItemFromCart(Long id, String sessionValue) {
+        Cart cart = cartReposiitory.findBySessionValue(sessionValue);
+        Set<CartItem> items = cart.getItems();
+        CartItem cartItem = null;
+        for(CartItem item: items){
+            if(item.getId().equals(id)){
+                cartItem=item;
+
+            }
+        }
+        items.remove(cartItem);
+        cartItemRepository.delete(cartItem);
+        cart.setItems(items);
+        return cartReposiitory.save(cart);
+    }
+
+    public void clearCart(String sessionValue) {
+        Cart cart = cartReposiitory.findBySessionValue(sessionValue);
+        cartReposiitory.delete(cart);
     }
 }

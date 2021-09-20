@@ -5,8 +5,6 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class tovar {
@@ -24,6 +22,7 @@ public class tovar {
     private String filename;
     @Min(value = 1,message = "Minimal price is 1₽")
     private int price;
+
 
     public String getFilename() {
         return filename;
@@ -89,4 +88,5 @@ public class tovar {
         this.articul = articul;
         this.vendor = vendor;
     }
+
 }

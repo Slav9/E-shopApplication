@@ -15,7 +15,7 @@
                 <th>Product Name</th>
                 <th class="text-center">Quantity</th>
                 <th class="text-center">Subtotal</th>
-                <th class="text-center"><a class="btn btn-sm btn-outline-danger" href="#">Clear Cart</a></th>
+                <th class="text-center"><a class="btn btn-sm btn-outline-danger" th:href="@{/clearCart}">Clear Cart</a></th>
             </tr>
             </thead>
             <tbody>
@@ -29,33 +29,28 @@
                     </div>
                 </td>
                 <td class="text-center">
-                    <div class="count-input">
-                        <select class="form-control">
-                            <option th:value="${cartItem.quantity}" selected="selected">[[${cartItem.quantity}]]</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                        </select>
-                    </div>
+                    <form th:action="@{/updateCart}" method="post">
+                        <input type="hidden" th:value="${cartItem.id}" name="item_id" />
+                        <div class="input-group">
+                            <input type="number" min="1" name="quantity" th:value="${cartItem.quantity}" class="form-control round-input form-control-sm" />
+                            <button class="btn btn-success btn-sm btn-custom" type="submit">
+                                <i class="fa fa-check"></i>
+                            </button>
+                        </div>
+                    </form>
                 </td>
-                <td class="text-center text-lg text-medium">[[${cartItem.tovar.price}*${cartItem.quantity}]]₽</td>
-                <td class="text-center"><a class="remove-from-cart" href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="fa fa-trash"></i></a></td>
+                <td class="text-center text-lg text-medium">[[${cartItem.tovar.price*cartItem.quantity}]]₽</td>
+                <td class="text-center"><a class="remove-from-cart" th:href="@{/removeCartItem/{id}(id=${cartItem.id})}" data-toggle="tooltip"><i class="fa fa-trash"></i></a></td>
             </tr>
-
-
             </tbody>
         </table>
     </div>
     <div class="shopping-cart-footer">
-        <div class="column text-lg ">Subtotal: <span class="text-medium">[[${cart.getTotalPrice}]]₽</span></div>
+        <div class="column text-lg ">Subtotal: <span class="text-medium ">[[${cart.totalPrice}]]₽</span></div>
     </div>
     <div class="shopping-cart-footer">
         <div class="column"><a class="btn btn-outline-secondary" href="/catalog"><i class="icon-arrow-left"></i>&nbsp;Back to Shopping</a></div>
-        <div class="column"><a class="btn btn-primary" href="#" data-toast="" data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Your cart" data-toast-message="is updated successfully!">Update Cart</a><a class="btn btn-success" href="#">Checkout</a></div>
+        <div class="column"><a class="btn btn-success" href="/checkout">Checkout</a></div>
     </div>
 </div>
 

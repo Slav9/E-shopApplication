@@ -61,10 +61,10 @@ public class MainController {
                            Model model,
                            @RequestParam("file") MultipartFile file) throws IOException {
         tovar.setVendor(user);
-
         if(bindingResult.hasErrors()){
             return "catalog-add";
         } else {
+            //code below check if file directory exists and add name to downloaded file
             if (!file.isEmpty()) {
                 File uploadDir = new File(uploadPath);
 
@@ -80,21 +80,20 @@ public class MainController {
                 tovar.setFilename(resultFilename);
             }
 
-
             allgoodsRepository.save(tovar);
         }
         return "redirect:/catalog";
     }
 
 
-
-    @PreAuthorize("hasAuthority('VENDOR')")
-    @PostMapping ("remove{id}")
-    public String remove(@PathVariable(value = "id") long id, Model model){
-        tovar tovar = allgoodsRepository.findById(id).orElseThrow();
-        allgoodsRepository.delete(tovar);
-        return "redirect:/catalog";
-    }
+// remove controller doesnt work because of sql relations, finding a way to do it
+//    @PreAuthorize("hasAuthority('VENDOR')")
+//    @PostMapping ("remove{id}")
+//    public String remove(@PathVariable(value = "id") long id, Model model){
+//        tovar tovar = allgoodsRepository.findById(id).orElseThrow();
+//        allgoodsRepository.delete(tovar);
+//        return "redirect:/catalog";
+//    }
 
     @PreAuthorize("hasAuthority('VENDOR')")
     @GetMapping("/catalog/{id}/edit")
@@ -131,7 +130,7 @@ public class MainController {
 
                     tovar.setFilename(resultFilename);
                 }
-
+            //if admin redacting vendor's staff, vendorname became "admin", can't understand how to fix it atm
                 tovar.setVendor(user);
             allgoodsRepository.save(tovar);
 
