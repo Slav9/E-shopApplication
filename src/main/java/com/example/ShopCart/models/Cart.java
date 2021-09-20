@@ -1,7 +1,6 @@
 package com.example.ShopCart.models;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +17,7 @@ public class Cart {
     private int itemsNumber;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<CartItem> items = new HashSet<CartItem>();
+    private Set<CartItem> items = new HashSet<>();
 
     private String sessionValue;
 
@@ -35,7 +34,7 @@ public class Cart {
     public int getTotalPrice() {
         int sum =0;
         for(CartItem item: this.items ){
-            sum+=item.getTovar().getPrice();
+            sum+=item.getTovar().getPrice()*item.getQuantity();
         }
         return sum;
     }

@@ -3,6 +3,16 @@
 <div th:insert="blocks/top::top"></div>
 <body>
 <div th:insert="blocks/navbar::navbar"></div>
-<h1 align="center" class="container  mt-5">Добро пожаловать в мой магазин</h1>
-<div align="center"><a th:href = "@{/login}">Перейти к странице входа</a></div>
+
+
+<div th:if="${#authorization.expression('hasAuthority(''USER'')')}">
+    <h1 align="center" class="container  mt-5">e-shop</h1>
+    <div align="center"><a th:href = "@{/catalog}">Вернуться в каталог</a></div>
+</div>
+<div th:if="${not #authorization.expression('hasAuthority(''USER'')')}">
+    <h1 align="center" class="container  mt-5">Добро пожаловать в мой магазин</h1>
+    <div align="center"><a th:href = "@{/login}">Перейти к странице входа</a></div>
+</div>
+
+
 </body>

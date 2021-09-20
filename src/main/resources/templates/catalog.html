@@ -17,16 +17,17 @@
 
             <p> <b>Цена товара:</b> <span th:text="${el.price}+' ₽'"/></p>
 
-            <p> <b>Продавец товара:</b> <span th:text="${el.vendorName}"/></p>
+            <p> <b>Продавец товара:</b><span th:text="${el.vendorName}"/> </p>
 
             <div th:if = "${el.vendorName} == ${#authentication.getPrincipal().getUsername()} OR ${#authorization.expression('hasAuthority(''ADMIN'')')}">
 
             <a th:if="${#authorization.expression('hasAuthority(''VENDOR'')')}" th:href="'/catalog/'+${el.id}+ '/edit'">Редактировать товар</a>
 
-            <div th:if="${#authorization.expression('hasAuthority(''VENDOR'')')}" align="center">
+            <!--<div th:if="${#authorization.expression('hasAuthority(''VENDOR'')')}" align="center">
                 <form  th:action="remove+${el.id}" method="post">
                 <button class="btn btn-outline-danger" type="submit">Удалить</button></form>
-            </div>
+                remove button dosen't work because of sql relations, finding a way to do it
+            </div>-->
             </div>
 
             <div align="right">

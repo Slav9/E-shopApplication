@@ -7,7 +7,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
-
+//found that at random video
 @Configuration
 public class MailConfig {
     @Value("${spring.mail.host}")
