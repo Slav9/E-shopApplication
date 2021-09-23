@@ -1,5 +1,6 @@
 package com.example.ShopCart.Controllers;
 
+import com.example.ShopCart.Service.FileService;
 import com.example.ShopCart.models.Users;
 import com.example.ShopCart.models.tovar;
 import com.example.ShopCart.repo.allGoodsRepository;
@@ -17,17 +18,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.UUID;
 
 @Controller
 public class MainController {
 
     @Autowired
     private allGoodsRepository allgoodsRepository;
+    @Autowired
+    private FileService fileService;
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -40,8 +41,8 @@ public class MainController {
 
     @GetMapping("/catalog")
     public String catalog(Model model) {
-        Iterable<tovar> goods = allgoodsRepository.findAll();
-        model.addAttribute("tovars",goods);
+        Iterable<tovar> tovars = allgoodsRepository.findAll();
+        model.addAttribute("tovars",tovars);
         return "catalog";
     }
 
@@ -64,26 +65,13 @@ public class MainController {
         if(bindingResult.hasErrors()){
             return "catalog-add";
         } else {
-            //code below check if file directory exists and add name to downloaded file
-            if (!file.isEmpty()) {
-                File uploadDir = new File(uploadPath);
-
-                if (!uploadDir.exists()) {
-                    uploadDir.mkdir();
-                }
-
-                String uuidFile = UUID.randomUUID().toString();
-                String resultFilename = uuidFile + "." + file.getOriginalFilename();
-
-                file.transferTo(new File(uploadPath + "/" + resultFilename));
-
-                tovar.setFilename(resultFilename);
-            }
-
+            fileService.CheckFileDirectoryAndAddFileName(tovar,file);
             allgoodsRepository.save(tovar);
         }
         return "redirect:/catalog";
     }
+
+
 
 
 // remove controller doesnt work because of sql relations, finding a way to do it
@@ -112,30 +100,14 @@ public class MainController {
                        @Valid tovar tovar,BindingResult bindingResult, Model model,
                        @RequestParam("file") MultipartFile file) throws IOException{
 
-
         if(bindingResult.hasErrors()){
             return "catalog-edit";
         }  else  {
-                if (!file.isEmpty()) {
-                    File uploadDir = new File(uploadPath);
-
-                    if (!uploadDir.exists()) {
-                        uploadDir.mkdir();
-                    }
-
-                    String uuidFile = UUID.randomUUID().toString();
-                    String resultFilename = uuidFile + "." + file.getOriginalFilename();
-
-                    file.transferTo(new File(uploadPath + "/" + resultFilename));
-
-                    tovar.setFilename(resultFilename);
-                }
+            fileService.CheckFileDirectoryAndAddFileName(tovar,file);
             //if admin redacting vendor's staff, vendorname became "admin", can't understand how to fix it atm
-                tovar.setVendor(user);
+            tovar.setVendor(user);
             allgoodsRepository.save(tovar);
-
         }
-
         return "redirect:/catalog";
     }
 

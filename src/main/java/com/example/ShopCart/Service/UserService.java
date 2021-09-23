@@ -2,7 +2,7 @@ package com.example.ShopCart.Service;
 
 import com.example.ShopCart.models.Role;
 import com.example.ShopCart.models.Users;
-import com.example.ShopCart.repo.UsersPerository;
+import com.example.ShopCart.repo.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,19 +17,19 @@ import java.util.stream.Collectors;
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
-    private UsersPerository usersPerository;
+    private UsersRepository usersRepository;
     @Autowired
     private MailSender mailSender;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return usersPerository.findByUsername(username);
+        return usersRepository.findByUsername(username);
     }
 
     public boolean addUser(Users user){
 
-        Users userFromDb = usersPerository.findByUsername(user.getUsername());
+        Users userFromDb = usersRepository.findByUsername(user.getUsername());
 
         if(userFromDb !=null){
             return false;
@@ -38,7 +38,7 @@ public class UserService implements UserDetailsService {
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        usersPerository.save(user);
+        usersRepository.save(user);
 
         sendMessage(user);
 
@@ -59,7 +59,7 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean activateUser(String code) {
-        Users users = usersPerository.findByActivationCode(code);
+        Users users = usersRepository.findByActivationCode(code);
 
         if(users == null){
             return false;
@@ -67,13 +67,13 @@ public class UserService implements UserDetailsService {
 
         users.setActivationCode(null);
         users.setActive(true);
-        usersPerository.save(users);
+        usersRepository.save(users);
 
         return true;
     }
 
     public List<Users> findAll() {
-        return usersPerository.findAll();
+        return usersRepository.findAll();
     }
 
     public void saveUser(Users users, String username, Map<String, String> form) {
@@ -88,7 +88,7 @@ public class UserService implements UserDetailsService {
             }
         }
 
-        usersPerository.save(users);
+        usersRepository.save(users);
     }
 
 
@@ -111,7 +111,7 @@ public class UserService implements UserDetailsService {
             users.setPassword(passwordEncoder.encode(password));
         }
 
-        usersPerository.save(users);
+        usersRepository.save(users);
 
         if(isEmailChanged) {
             sendMessage(users);
