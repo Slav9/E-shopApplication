@@ -1,3 +1,4 @@
+//config for MailSender service
 package com.example.ShopCart.config;
 
 import org.springframework.beans.factory.annotation.Value;

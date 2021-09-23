@@ -1,3 +1,4 @@
+// service for Cart model (all methods act like named)
 package com.example.ShopCart.Service;
 
 import com.example.ShopCart.models.Cart;
@@ -63,6 +64,7 @@ public class CartService {
         return cartRepository.findBySessionValue(sessionValue);
     }
 
+    //this method update quantity of item in cart if it's already exists
     public CartItem updateCartItem(Long id, int quantity) {
         CartItem cartItem = cartItemRepository.findById(id).orElseThrow();
         cartItem.setQuantity(quantity);
