@@ -4,7 +4,7 @@ import com.example.ShopCart.models.Cart;
 import com.example.ShopCart.models.CartItem;
 import com.example.ShopCart.models.tovar;
 import com.example.ShopCart.repo.CartItemRepository;
-import com.example.ShopCart.repo.CartReposiitory;
+import com.example.ShopCart.repo.CartRepository;
 import com.example.ShopCart.repo.allGoodsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.Set;
 public class CartService {
 
     @Autowired
-    private CartReposiitory cartReposiitory;
+    private CartRepository cartRepository;
     @Autowired
     private allGoodsRepository allGoodsRepository;
     @Autowired
@@ -29,12 +29,12 @@ public class CartService {
         cartItem.setTovar(allGoodsRepository.findById(id).orElseThrow());
         cart.getItems().add(cartItem);
         cart.setSessionValue(sessionValue);
-         return cartReposiitory.save(cart);
+         return cartRepository.save(cart);
     }
 
 
     public Cart addToShoppingCart(Long id, String sessionValue, int quantity) {
-        Cart cart = cartReposiitory.findBySessionValue(sessionValue);
+        Cart cart = cartRepository.findBySessionValue(sessionValue);
         tovar t = allGoodsRepository.findById(id).orElseThrow();
         boolean productIsInCart = false;
         if (cart!=null) {
@@ -44,7 +44,7 @@ public class CartService {
                     productIsInCart=true;
                     item.setQuantity(item.getQuantity()+quantity);
                     cart.setItems(items);
-                    return cartReposiitory.saveAndFlush(cart);
+                    return cartRepository.saveAndFlush(cart);
                 }
             }
         }
@@ -53,14 +53,14 @@ public class CartService {
             cartItem1.setQuantity(quantity);
             cartItem1.setTovar(t);
             cart.getItems().add(cartItem1);
-            return cartReposiitory.saveAndFlush(cart);
+            return cartRepository.saveAndFlush(cart);
         }
 
         return this.addCart(id, sessionValue, quantity);
     }
 
     public Cart getCartBySessionValue(String sessionValue) {
-        return cartReposiitory.findBySessionValue(sessionValue);
+        return cartRepository.findBySessionValue(sessionValue);
     }
 
     public CartItem updateCartItem(Long id, int quantity) {
@@ -70,7 +70,7 @@ public class CartService {
     }
 
     public Cart removeCartItemFromCart(Long id, String sessionValue) {
-        Cart cart = cartReposiitory.findBySessionValue(sessionValue);
+        Cart cart = cartRepository.findBySessionValue(sessionValue);
         Set<CartItem> items = cart.getItems();
         CartItem cartItem = null;
         for(CartItem item: items){
@@ -82,11 +82,11 @@ public class CartService {
         items.remove(cartItem);
         cartItemRepository.delete(cartItem);
         cart.setItems(items);
-        return cartReposiitory.save(cart);
+        return cartRepository.save(cart);
     }
 
     public void clearCart(String sessionValue) {
-        Cart cart = cartReposiitory.findBySessionValue(sessionValue);
-        cartReposiitory.delete(cart);
+        Cart cart = cartRepository.findBySessionValue(sessionValue);
+        cartRepository.delete(cart);
     }
 }

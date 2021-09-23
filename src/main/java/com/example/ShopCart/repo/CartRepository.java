@@ -4,6 +4,6 @@ import com.example.ShopCart.models.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface CartReposiitory extends JpaRepository<Cart,Long> {
+public interface CartRepository extends JpaRepository<Cart,Long> {
         Cart findBySessionValue(String sessionValue);
 }

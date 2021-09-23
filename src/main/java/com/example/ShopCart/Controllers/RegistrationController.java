@@ -29,7 +29,6 @@ public class RegistrationController {
             if(bindingResult.hasErrors()||!userService.addUser(user)) {
             return "registration";
         } else {
-
                 return "redirect:/login";
             }
     }
@@ -37,7 +36,6 @@ public class RegistrationController {
     @GetMapping("/activate/{code}")
     public String activate (Model model, @PathVariable String code){
         boolean isActivated = userService.activateUser(code);
-
         return "login";
     }
 }

@@ -24,6 +24,7 @@ public class CartController {
 
     @GetMapping("/cart")
     public String showCart(HttpSession session, Model model) {
+
         String sessionValue = (String) session.getAttribute("sessionValue");
         if(sessionValue==null){
         model.addAttribute("cart",new Cart());
@@ -54,12 +55,14 @@ public class CartController {
     }
     @PostMapping("/updateCart")
     public String updateCartItem(@RequestParam("item_id") Long id, @RequestParam("quantity") int quantity){
+
         cartService.updateCartItem(id,quantity);
     return "redirect:/cart";
     }
 
     @GetMapping("/removeCartItem/{id}")
     public String removeItem(@PathVariable("id") Long id,HttpSession session){
+
         String sessionValue = (String) session.getAttribute("sessionValue");
         cartService.removeCartItemFromCart(id,sessionValue);
         return "redirect:/cart";
@@ -67,6 +70,7 @@ public class CartController {
 
     @GetMapping("/clearCart")
     public String clearCart(HttpSession session){
+
         String sessionValue = (String) session.getAttribute("sessionValue");
         session.removeAttribute("sessionValue");
         cartService.clearCart(sessionValue);
