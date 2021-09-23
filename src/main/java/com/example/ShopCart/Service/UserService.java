@@ -1,3 +1,4 @@
+// service for different actions with users
 package com.example.ShopCart.Service;
 
 import com.example.ShopCart.models.Role;
@@ -22,6 +23,7 @@ public class UserService implements UserDetailsService {
     private MailSender mailSender;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return usersRepository.findByUsername(username);
@@ -39,17 +41,16 @@ public class UserService implements UserDetailsService {
         user.setActivationCode(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         usersRepository.save(user);
-
         sendMessage(user);
 
         return true;
     }
-
+    // method for sending verification code to users
     private void sendMessage(Users user) {
         if(!ObjectUtils.isEmpty(user.getEmail())) {
             String message = String.format(
                     "Hello, %s! \n"+
-                            "Welcome to my Shopcart. Please, activate your account by this link: http://localhost:8080/activate/%s",
+                            "Welcome to my E-shop. Please, activate your account by this link: http://localhost:8080/activate/%s",
                     user.getUsername(),
                     user.getActivationCode()
             );
@@ -58,6 +59,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    //when users clicks verification code he become active and can enter site
     public boolean activateUser(String code) {
         Users users = usersRepository.findByActivationCode(code);
 

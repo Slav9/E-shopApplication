@@ -1,3 +1,4 @@
+//Controller for admin control user page and user profile page
 package com.example.ShopCart.Controllers;
 
 import com.example.ShopCart.Service.UserService;
