@@ -7,12 +7,14 @@ import java.util.Set;
 @Entity
 @Table(name="shoppingcart")
 public class Cart {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Transient
     private int totalPrice;
+
     @Transient
     private int itemsNumber;
 
@@ -42,7 +44,6 @@ public class Cart {
     public int getItemsNumber() {
         return this.items.size();
     }
-
 
     public Set<CartItem> getItems() {
         return items;

@@ -1,7 +1,7 @@
 // service for checking file directory and naming new files
 package com.example.ShopCart.Service;
 
-import com.example.ShopCart.models.tovar;
+import com.example.ShopCart.models.Tovar;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +18,8 @@ public class FileService {
     @Value("${upload.path}")
     private String uploadPath;
 
-    public void CheckFileDirectoryAndAddFileName(@Valid tovar tovar, @RequestParam("file") MultipartFile file) throws IOException {
+    public void CheckFileDirectoryAndAddFileName(@Valid Tovar tovar, @RequestParam("file") MultipartFile file) throws IOException {
+
         if (!file.isEmpty()) {
             File uploadDir = new File(uploadPath);
 
@@ -28,9 +29,7 @@ public class FileService {
 
             String uuidFile = UUID.randomUUID().toString();
             String resultFilename = uuidFile + "." + file.getOriginalFilename();
-
             file.transferTo(new File(uploadPath + "/" + resultFilename));
-
             tovar.setFilename(resultFilename);
         }
     }

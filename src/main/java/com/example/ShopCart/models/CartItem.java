@@ -13,7 +13,7 @@ public class CartItem {
 
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private tovar tovar;
+    private Tovar tovar;
 
     public Long getId() {
         return id;
@@ -31,11 +31,11 @@ public class CartItem {
         this.quantity = quantity;
     }
 
-    public com.example.ShopCart.models.tovar getTovar() {
+    public Tovar getTovar() {
         return tovar;
     }
 
-    public void setTovar(com.example.ShopCart.models.tovar tovar) {
+    public void setTovar(Tovar tovar) {
         this.tovar = tovar;
     }
 
