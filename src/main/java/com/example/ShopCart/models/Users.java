@@ -12,12 +12,14 @@ import java.util.Set;
 @Entity
 @Table(name="usr")
 public class Users implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @NotBlank(message = "Username cannot be empty")
     private String username;
+
     @NotBlank(message = "Password cannot be empty")
     private String password;
 
@@ -26,6 +28,7 @@ public class Users implements UserDetails {
     @Email(message = "Email is not correct")
     @NotBlank(message = "Email cannot be empty")
     private String email;
+
     private String activationCode;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)

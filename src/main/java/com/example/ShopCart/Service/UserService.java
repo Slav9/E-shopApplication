@@ -1,4 +1,3 @@
-// service for different actions with users
 package com.example.ShopCart.Service;
 
 import com.example.ShopCart.models.Role;
@@ -17,22 +16,25 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
+
     @Autowired
     private UsersRepository usersRepository;
+
     @Autowired
     private MailSender mailSender;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         return usersRepository.findByUsername(username);
     }
 
     public boolean addUser(Users user){
 
         Users userFromDb = usersRepository.findByUsername(user.getUsername());
-
         if(userFromDb !=null){
             return false;
         }
@@ -42,11 +44,11 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         usersRepository.save(user);
         sendMessage(user);
-
         return true;
     }
     // method for sending verification code to users
     private void sendMessage(Users user) {
+
         if(!ObjectUtils.isEmpty(user.getEmail())) {
             String message = String.format(
                     "Hello, %s! \n"+
@@ -70,7 +72,6 @@ public class UserService implements UserDetailsService {
         users.setActivationCode(null);
         users.setActive(true);
         usersRepository.save(users);
-
         return true;
     }
 
@@ -79,12 +80,13 @@ public class UserService implements UserDetailsService {
     }
 
     public void saveUser(Users users, String username, Map<String, String> form) {
-        users.setUsername(username);
 
+        users.setUsername(username);
         Set<String> roles = Arrays.stream(Role.values()).map(Role::name).collect(Collectors.toSet());
         users.getRoles().clear();
 
         for(String key: form.keySet()){
+
             if(roles.contains(key)){
                 users.getRoles().add(Role.valueOf(key));
             }
@@ -97,25 +99,52 @@ public class UserService implements UserDetailsService {
     public void editProfile(Users users, String password, String email) {
 
         String userEmail = users.getEmail();
+        String userPassword = users.getPassword();
 
-        boolean isEmailChanged = (email!=null&& !email.equals(userEmail)) ||
+        boolean EmailChanged = (email!=null&& !email.equals(userEmail)) ||
                 (userEmail!=null && !userEmail.equals(email));
 
-        if (isEmailChanged){
+        boolean PasswordChanged = (password!=null && !password.equals(userPassword)) ||
+                (userPassword!=null&& !userPassword.equals(password));
+
+
+        if (EmailChanged && !PasswordChanged){
+
            users.setEmail(email);
 
            if(!ObjectUtils.isEmpty(email)){
+
                users.setActivationCode(UUID.randomUUID().toString());
            }
         }
 
-        if(!ObjectUtils.isEmpty(password)){
-            users.setPassword(passwordEncoder.encode(password));
+        if(PasswordChanged && !EmailChanged){
+
+            if(!ObjectUtils.isEmpty(password)){
+
+                users.setPassword(passwordEncoder.encode(password));
+            }
+        }
+
+        if(PasswordChanged && EmailChanged){
+
+            users.setEmail(email);
+
+            if(!ObjectUtils.isEmpty(email)){
+
+                users.setActivationCode(UUID.randomUUID().toString());
+            }
+
+            if(!ObjectUtils.isEmpty(password)){
+
+                users.setPassword(passwordEncoder.encode(password));
+            }
         }
 
         usersRepository.save(users);
 
-        if(isEmailChanged) {
+        if(EmailChanged) {
+
             sendMessage(users);
         }
 

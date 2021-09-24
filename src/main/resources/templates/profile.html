@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Регистрация</title>
+    <div th:insert="blocks/top::top"></div>
+    <title>Профиль</title>
     <style>
 form {
 
@@ -15,10 +16,11 @@ form {
     </style>
 </head>
 <body>
+<div th:insert="blocks/navbar::navbar"></div>
 <h3 align="center"> Личный кабинет пользователя <span th:text="${#authentication.getPrincipal().getUsername()}"></span></h3>
 <form th:action="@{/users/profile}" method="post">
 
-    <div align="center"><label> Email: <input type="email" name="email"/> </label></div>
+    <div align="center"><label> Email: <input type="email" th:value="${#authentication.getPrincipal().getEmail()}" name="email"/></label></div>
 
     <div align="center"><label> Password: <input type="password" name="password"/> </label></div>
 

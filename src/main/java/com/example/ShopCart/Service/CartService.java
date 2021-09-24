@@ -3,10 +3,10 @@ package com.example.ShopCart.Service;
 
 import com.example.ShopCart.models.Cart;
 import com.example.ShopCart.models.CartItem;
-import com.example.ShopCart.models.tovar;
+import com.example.ShopCart.models.Tovar;
 import com.example.ShopCart.repo.CartItemRepository;
 import com.example.ShopCart.repo.CartRepository;
-import com.example.ShopCart.repo.allGoodsRepository;
+import com.example.ShopCart.repo.TovarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,17 +17,20 @@ public class CartService {
 
     @Autowired
     private CartRepository cartRepository;
+
     @Autowired
-    private allGoodsRepository allGoodsRepository;
+    private TovarRepository TovarRepository;
+
     @Autowired
     private CartItemRepository cartItemRepository;
 
 
     public Cart addCart(Long id, String sessionValue, int quantity) {
+
         Cart cart = new Cart();
         CartItem cartItem = new CartItem();
         cartItem.setQuantity(quantity);
-        cartItem.setTovar(allGoodsRepository.findById(id).orElseThrow());
+        cartItem.setTovar(TovarRepository.findById(id).orElseThrow());
         cart.getItems().add(cartItem);
         cart.setSessionValue(sessionValue);
          return cartRepository.save(cart);
@@ -35,8 +38,9 @@ public class CartService {
 
 
     public Cart addToShoppingCart(Long id, String sessionValue, int quantity) {
+
         Cart cart = cartRepository.findBySessionValue(sessionValue);
-        tovar t = allGoodsRepository.findById(id).orElseThrow();
+        Tovar t = TovarRepository.findById(id).orElseThrow();
         boolean productIsInCart = false;
         if (cart!=null) {
             Set<CartItem> items=cart.getItems();
@@ -72,6 +76,7 @@ public class CartService {
     }
 
     public Cart removeCartItemFromCart(Long id, String sessionValue) {
+
         Cart cart = cartRepository.findBySessionValue(sessionValue);
         Set<CartItem> items = cart.getItems();
         CartItem cartItem = null;
@@ -88,6 +93,7 @@ public class CartService {
     }
 
     public void clearCart(String sessionValue) {
+
         Cart cart = cartRepository.findBySessionValue(sessionValue);
         cartRepository.delete(cart);
     }

@@ -3,7 +3,7 @@ package com.example.ShopCart.Controllers;
 
 import com.example.ShopCart.Service.CartService;
 import com.example.ShopCart.models.Cart;
-import com.example.ShopCart.repo.allGoodsRepository;
+import com.example.ShopCart.repo.TovarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 public class CartController {
 
     @Autowired
-    private allGoodsRepository allGoodsRepository ;
+    private TovarRepository TovarRepository;
     @Autowired
     private CartService cartService;
 

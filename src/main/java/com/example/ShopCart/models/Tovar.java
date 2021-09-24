@@ -7,7 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-public class tovar {
+public class Tovar {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -16,10 +16,13 @@ public class tovar {
     @NotBlank(message = "Please fill the name field")
     @Length(max = 40, min = 5, message = "Name must be between 5 and 40 characters")
     private String name;
+
     @NotBlank(message = "Please fill the articul field")
     @Length(max = 6,min = 6,message = "Articul is combination of 6 characters")
     private String articul;
+
     private String filename;
+
     @Min(value = 1,message = "Minimal price is 1₽")
     private int price;
 
@@ -80,9 +83,9 @@ public class tovar {
         this.price = price;
     }
 
-    public tovar(){}
+    public Tovar(){}
 
-    public tovar(String name,int price, String articul, Users vendor) {
+    public Tovar(String name, int price, String articul, Users vendor) {
         this.name = name;
         this.price = price;
         this.articul = articul;

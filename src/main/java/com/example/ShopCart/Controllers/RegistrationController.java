@@ -1,4 +1,3 @@
-//Controller for registration
 package com.example.ShopCart.Controllers;
 
 import com.example.ShopCart.Service.UserService;
@@ -21,12 +20,14 @@ public class RegistrationController {
 
     @GetMapping("/registration")
     public String registration(Model model){
+
         model.addAttribute("users",new Users());
         return ("registration");
     }
 
     @PostMapping("/registration")
     public String addUser(@Valid Users user, BindingResult bindingResult, Model model){
+
             if(bindingResult.hasErrors()||!userService.addUser(user)) {
             return "registration";
         } else {
@@ -36,6 +37,7 @@ public class RegistrationController {
 
     @GetMapping("/activate/{code}")
     public String activate (Model model, @PathVariable String code){
+
         boolean isActivated = userService.activateUser(code);
         return "login";
     }

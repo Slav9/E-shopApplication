@@ -1,8 +1,10 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:insert="blocks/top::top"></div>
+<head>
+    <title>Изменение пользователей</title>
+</head>
 <body>
-User editor
 <form th:action="@{/users}" method="post" th:object="${users}">
         <input type="hidden" th:value="*{id}" name="UserID">
         <input type="text" th:value="*{username}" name="username">

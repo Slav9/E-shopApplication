@@ -1,4 +1,3 @@
-//repository for CartItem model
 package com.example.ShopCart.repo;
 
 import com.example.ShopCart.models.CartItem;
