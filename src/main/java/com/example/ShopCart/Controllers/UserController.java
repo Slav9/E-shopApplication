@@ -51,7 +51,7 @@ public class UserController {
 
     @GetMapping("profile")
     public String getProfile (Model model, @AuthenticationPrincipal Users users){
-
+        model.addAttribute("users",users);
     return ("profile");
     }
 
@@ -61,4 +61,12 @@ public class UserController {
         userService.editProfile(users,password,email);
         return ("redirect:/users/profile");
     }
+
+    @PostMapping("updateBalance")
+    public String updateBal (@AuthenticationPrincipal Users users, @RequestParam("balance") int amount, Model model){
+        model.addAttribute("users",users);
+        users.setBalance(userService.updatedBalance(users, amount));
+
+        return ("profile");
+}
 }

@@ -25,7 +25,7 @@
             <tr th:each="cartItem:${cart.items}">
                 <td>
                     <div class="product-item">
-                        <a class="product-thumb" href="#"><img th:src="@{/img/{filename}(filename = ${cartItem.tovar.filename})}" alt="" width="220px" height="180px"></a>
+                        <a class="product-thumb"><img th:src="@{/img/{filename}(filename = ${cartItem.tovar.filename})}" alt="" width="220px" height="180px"></a>
                         <div class="product-info">
                             <h4 class="product-title"><a href="#"><span th:text ="${cartItem.tovar.name}"/></a></h4><span><em>Price:</em>[[${cartItem.tovar.price}]]₽</span>
                         </div>

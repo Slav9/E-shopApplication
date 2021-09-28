@@ -30,6 +30,7 @@ public class Users implements UserDetails {
     private String email;
 
     private String activationCode;
+    private Integer balance;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -117,4 +118,11 @@ public class Users implements UserDetails {
         this.activationCode = activationCode;
     }
 
+    public Integer getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Integer balance) {
+        this.balance = balance;
+    }
 }

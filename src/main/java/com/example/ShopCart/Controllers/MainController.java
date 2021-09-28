@@ -53,7 +53,7 @@ public class MainController {
     @GetMapping("/catalog/add")
     public String catalogAdd(Model model) {
 
-        model.addAttribute("Tovar",new Tovar());
+        model.addAttribute("tovar",new Tovar());
         return "catalog-add";
     }
 
