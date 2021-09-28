@@ -1,0 +1,1 @@
+ALTER TABLE usr ADD balance INTEGER DEFAULT 0;

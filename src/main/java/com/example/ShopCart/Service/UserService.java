@@ -149,4 +149,12 @@ public class UserService implements UserDetailsService {
         }
 
     }
+     public int updatedBalance(Users users, int amount) {
+        int bal = users.getBalance()+amount;
+        users.setBalance(bal);
+        usersRepository.save(users);
+
+        return users.getBalance();
+    }
+
 }
