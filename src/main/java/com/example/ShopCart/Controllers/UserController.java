@@ -4,6 +4,7 @@ package com.example.ShopCart.Controllers;
 import com.example.ShopCart.Service.UserService;
 import com.example.ShopCart.models.Role;
 import com.example.ShopCart.models.Users;
+import com.example.ShopCart.repo.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,6 +21,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UsersRepository usersRepository;
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
@@ -63,10 +66,10 @@ public class UserController {
     }
 
     @PostMapping("updateBalance")
-    public String updateBal (@AuthenticationPrincipal Users users, @RequestParam("balance") int amount, Model model){
+    public String updateBal (@AuthenticationPrincipal Users users, @RequestParam("amount") int amount, Model model){
+        //balance correctly updates only when user relogin, absolutely 0 ideas why this is happening
         model.addAttribute("users",users);
-        users.setBalance(userService.updatedBalance(users, amount));
-
+        userService.topUpBalance(users, amount);
         return ("profile");
 }
 }

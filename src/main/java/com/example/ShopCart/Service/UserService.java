@@ -1,5 +1,6 @@
 package com.example.ShopCart.Service;
 
+import com.example.ShopCart.models.Cart;
 import com.example.ShopCart.models.Role;
 import com.example.ShopCart.models.Users;
 import com.example.ShopCart.repo.UsersRepository;
@@ -149,12 +150,18 @@ public class UserService implements UserDetailsService {
         }
 
     }
-     public int updatedBalance(Users users, int amount) {
-        int bal = users.getBalance()+amount;
-        users.setBalance(bal);
-        usersRepository.save(users);
+     public int topUpBalance(Users users, int amount) {
 
+        users.setBalance(users.getBalance()+amount);
+        usersRepository.save(users);
         return users.getBalance();
+    }
+
+    public Users updateUserBalanceOnCheckout(Users users, Cart cart) {
+
+        users.setBalance(users.getBalance()-cart.getTotalPrice());
+        return usersRepository.save(users);
+
     }
 
 }

@@ -53,7 +53,9 @@
     </div>
     <div class="shopping-cart-footer">
         <div class="column"><a class="btn btn-outline-secondary" href="/catalog"><i class="icon-arrow-left"></i>&nbsp;Back to Shopping</a></div>
-        <div class="column"><a class="btn btn-success" href="/checkout">Checkout</a></div>
+        <form th:action="@{/checkout}" method="post">
+            <button class="btn btn-success btn-sm btn-custom" type="submit"></button>
+        </form>
     </div>
 </div>
 
