@@ -27,8 +27,10 @@
         <ul class="navbar-nav mx-auto">
             <li th:if="${not #authorization.expression('hasAuthority(''ADMIN'')')}" class="nav-item" >
                 <a href ="/users/profile"><span> Здравствуйте, <span th:text="${#authentication.getPrincipal().getUsername()}"></span></span></a>
+               <div>Ваш баланс: <span th:text="${#authentication.getPrincipal().getBalance()}" ></span>₽ <a href ="/users/refill"><span> Пополнить баланс </span></a></div>
             </li>
         </ul>
+
         <ul class="navbar-nav ms-auto">
         <li class="nav-item">
             <a class="nav-link" href="/cart">

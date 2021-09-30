@@ -26,6 +26,9 @@ public class Tovar {
     @Min(value = 1,message = "Minimal price is 1₽")
     private int price;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private Users vendor;
 
     public String getFilename() {
         return filename;
@@ -34,10 +37,6 @@ public class Tovar {
     public void setFilename(String filename) {
         this.filename = filename;
     }
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private Users vendor;
 
     public String getVendorName(){
         return vendor !=null ? vendor.getUsername(): "<none>";

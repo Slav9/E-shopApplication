@@ -153,16 +153,17 @@ public class UserService implements UserDetailsService {
     }
      public int topUpBalance(Users users, int amount) {
 
-        users.setBalance(users.getBalance()+amount);
-        usersRepository.save(users);
-        return users.getBalance();
+         users.setBalance(users.getBalance()+amount);
+         usersRepository.save(users);
+         return users.getBalance();
     }
+
+
 
     public Users updateUserBalanceOnCheckout(Users users, Cart cart) {
 
         users.setBalance(users.getBalance()-cart.getTotalPrice());
         return usersRepository.save(users);
-
     }
 
 }
