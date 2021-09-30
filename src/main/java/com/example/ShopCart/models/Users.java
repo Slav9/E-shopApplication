@@ -125,4 +125,7 @@ public class Users implements UserDetails {
     public void setBalance(Integer balance) {
         this.balance = balance;
     }
+    public Users(){}
+
+
 }

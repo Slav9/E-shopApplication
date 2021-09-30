@@ -71,5 +71,11 @@ public class UserController {
         model.addAttribute("users",users);
         userService.topUpBalance(users, amount);
         return ("profile");
-}
+    }
+
+    @GetMapping("refill")
+    public String refill (@AuthenticationPrincipal Users users, Model model){
+        model.addAttribute("users",users);
+        return "refill";
+    }
 }
