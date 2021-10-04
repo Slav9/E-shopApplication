@@ -33,7 +33,7 @@ public class CartService {
         cartItem.setTovar(TovarRepository.findById(id).orElseThrow());
         cart.getItems().add(cartItem);
         cart.setSessionValue(sessionValue);
-         return cartRepository.save(cart);
+        return cartRepository.save(cart);
     }
 
 
@@ -42,18 +42,18 @@ public class CartService {
         Cart cart = cartRepository.findBySessionValue(sessionValue);
         Tovar t = TovarRepository.findById(id).orElseThrow();
         boolean productIsInCart = false;
-        if (cart!=null) {
-            Set<CartItem> items=cart.getItems();
+        if (cart != null) {
+            Set<CartItem> items = cart.getItems();
             for (CartItem item : items) {
                 if (item.getTovar().equals(t)) {
-                    productIsInCart=true;
-                    item.setQuantity(item.getQuantity()+quantity);
+                    productIsInCart = true;
+                    item.setQuantity(item.getQuantity() + quantity);
                     cart.setItems(items);
                     return cartRepository.saveAndFlush(cart);
                 }
             }
         }
-        if(!productIsInCart && cart != null) {
+        if (!productIsInCart && cart != null) {
             CartItem cartItem1 = new CartItem();
             cartItem1.setQuantity(quantity);
             cartItem1.setTovar(t);
@@ -80,9 +80,9 @@ public class CartService {
         Cart cart = cartRepository.findBySessionValue(sessionValue);
         Set<CartItem> items = cart.getItems();
         CartItem cartItem = null;
-        for(CartItem item: items){
-            if(item.getId().equals(id)){
-                cartItem=item;
+        for (CartItem item : items) {
+            if (item.getId().equals(id)) {
+                cartItem = item;
 
             }
         }

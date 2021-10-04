@@ -25,26 +25,26 @@ public class webSecurityConfig extends WebSecurityConfigurerAdapter {
         http
 
                 .authorizeRequests()
-                    .antMatchers("/","/registration","/activate/*").permitAll()
-                    .anyRequest().authenticated()
+                .antMatchers("/", "/registration", "/activate/*").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                    .formLogin()
-                    .defaultSuccessUrl("/catalog",true)
-                    .loginPage("/login")
-                    .permitAll()
+                .formLogin()
+                .defaultSuccessUrl("/catalog", true)
+                .loginPage("/login")
+                .permitAll()
                 .and()
-                    .rememberMe()
+                .rememberMe()
                 .and()
-                    .logout()
-                    .permitAll();
+                .logout()
+                .permitAll();
 
 
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-       auth.userDetailsService(userService)
-               .passwordEncoder(passwordEncoder);
+        auth.userDetailsService(userService)
+                .passwordEncoder(passwordEncoder);
 
     }
 }

@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="shoppingcart")
+@Table(name = "shoppingcart")
 public class Cart {
 
     @Id
@@ -23,7 +23,8 @@ public class Cart {
 
     private String sessionValue;
 
-    public Cart(){}
+    public Cart() {
+    }
 
     public Long getId() {
         return id;
@@ -34,9 +35,9 @@ public class Cart {
     }
 
     public int getTotalPrice() {
-        int sum =0;
-        for(CartItem item: this.items ){
-            sum+=item.getTovar().getPrice()*item.getQuantity();
+        int sum = 0;
+        for (CartItem item : this.items) {
+            sum += item.getTovar().getPrice() * item.getQuantity();
         }
         return sum;
     }

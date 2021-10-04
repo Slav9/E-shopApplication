@@ -3,7 +3,7 @@ package com.example.ShopCart.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name="cartitem")
+@Table(name = "cartitem")
 public class CartItem {
 
     @Id
@@ -38,7 +38,6 @@ public class CartItem {
     public void setTovar(Tovar tovar) {
         this.tovar = tovar;
     }
-
 
 
 }
