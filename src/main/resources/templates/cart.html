@@ -61,8 +61,10 @@
             to Shopping</a></div>
 
         <form th:action="@{/checkout}" method="post">
-            <button th:if="${cart.totalPrice} > 0 AND ${users.balance} > ${cart.totalPrice} " class="btn btn-success"
-                    type="submit">Оформить заказ</button>
+
+           
+            <button th:if="${cart.totalPrice} > 0 AND ${users.balance} >= ${cart.totalPrice} " class="btn btn-success" type="submit">Оформить заказ</button>
+
             <span th:if="${users.balance} < ${cart.totalPrice}">Недостаточно средств</span>
         </form>
 
