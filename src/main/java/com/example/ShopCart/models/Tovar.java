@@ -18,12 +18,12 @@ public class Tovar {
     private String name;
 
     @NotBlank(message = "Please fill the articul field")
-    @Length(max = 6,min = 6,message = "Articul is combination of 6 characters")
+    @Length(max = 6, min = 6, message = "Articul is combination of 6 characters")
     private String articul;
 
     private String filename;
 
-    @Min(value = 1,message = "Minimal price is 1₽")
+    @Min(value = 1, message = "Minimal price is 1₽")
     private int price;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -38,8 +38,8 @@ public class Tovar {
         this.filename = filename;
     }
 
-    public String getVendorName(){
-        return vendor !=null ? vendor.getUsername(): "<none>";
+    public String getVendorName() {
+        return vendor != null ? vendor.getUsername() : "<none>";
     }
 
     public Users getVendor() {
@@ -82,7 +82,8 @@ public class Tovar {
         this.price = price;
     }
 
-    public Tovar(){}
+    public Tovar() {
+    }
 
     public Tovar(String name, int price, String articul, Users vendor) {
         this.name = name;

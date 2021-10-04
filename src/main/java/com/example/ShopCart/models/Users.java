@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Set;
 
 @Entity
-@Table(name="usr")
+@Table(name = "usr")
 public class Users implements UserDetails {
 
     @Id
@@ -34,7 +34,7 @@ public class Users implements UserDetails {
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated (EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
     public Long getId() {
@@ -125,7 +125,9 @@ public class Users implements UserDetails {
     public void setBalance(Integer balance) {
         this.balance = balance;
     }
-    public Users(){}
+
+    public Users() {
+    }
 
 
 }

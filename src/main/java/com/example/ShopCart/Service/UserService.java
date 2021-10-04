@@ -33,10 +33,10 @@ public class UserService implements UserDetailsService {
         return usersRepository.findByUsername(username);
     }
 
-    public boolean addUser(Users user){
+    public boolean addUser(Users user) {
 
         Users userFromDb = usersRepository.findByUsername(user.getUsername());
-        if(userFromDb !=null){
+        if (userFromDb != null) {
             return false;
         }
 
@@ -47,18 +47,19 @@ public class UserService implements UserDetailsService {
         sendMessage(user);
         return true;
     }
+
     // method for sending verification code to users
     private void sendMessage(Users user) {
 
-        if(!ObjectUtils.isEmpty(user.getEmail())) {
+        if (!ObjectUtils.isEmpty(user.getEmail())) {
             String message = String.format(
-                    "Hello, %s! \n"+
+                    "Hello, %s! \n" +
                             "Welcome to my E-shop. Please, activate your account by this link: http://localhost:8080/activate/%s",
                     user.getUsername(),
                     user.getActivationCode()
             );
 
-            mailSender.send(user.getEmail(), "Activation code",message);
+            mailSender.send(user.getEmail(), "Activation code", message);
         }
     }
 
@@ -66,7 +67,7 @@ public class UserService implements UserDetailsService {
     public boolean activateUser(String code) {
         Users users = usersRepository.findByActivationCode(code);
 
-        if(users == null){
+        if (users == null) {
             return false;
         }
 
@@ -87,9 +88,9 @@ public class UserService implements UserDetailsService {
         Set<String> roles = Arrays.stream(Role.values()).map(Role::name).collect(Collectors.toSet());
         users.getRoles().clear();
 
-        for(String key: form.keySet()){
+        for (String key : form.keySet()) {
 
-            if(roles.contains(key)){
+            if (roles.contains(key)) {
                 users.getRoles().add(Role.valueOf(key));
             }
         }
@@ -103,41 +104,41 @@ public class UserService implements UserDetailsService {
         String userEmail = users.getEmail();
         String userPassword = users.getPassword();
 
-        boolean EmailChanged = (email!=null&& !email.equals(userEmail)) ||
-                (userEmail!=null && !userEmail.equals(email));
+        boolean EmailChanged = (email != null && !email.equals(userEmail)) ||
+                (userEmail != null && !userEmail.equals(email));
 
-        boolean PasswordChanged = (password!=null && !password.equals(userPassword)) ||
-                (userPassword!=null&& !userPassword.equals(password));
+        boolean PasswordChanged = (password != null && !password.equals(userPassword)) ||
+                (userPassword != null && !userPassword.equals(password));
 
 
-        if (EmailChanged && !PasswordChanged){
+        if (EmailChanged && !PasswordChanged) {
 
-           users.setEmail(email);
+            users.setEmail(email);
 
-           if(!ObjectUtils.isEmpty(email)){
+            if (!ObjectUtils.isEmpty(email)) {
 
-               users.setActivationCode(UUID.randomUUID().toString());
-           }
+                users.setActivationCode(UUID.randomUUID().toString());
+            }
         }
 
-        if(PasswordChanged && !EmailChanged){
+        if (PasswordChanged && !EmailChanged) {
 
-            if(!ObjectUtils.isEmpty(password)){
+            if (!ObjectUtils.isEmpty(password)) {
 
                 users.setPassword(passwordEncoder.encode(password));
             }
         }
 
-        if(PasswordChanged && EmailChanged){
+        if (PasswordChanged && EmailChanged) {
 
             users.setEmail(email);
 
-            if(!ObjectUtils.isEmpty(email)){
+            if (!ObjectUtils.isEmpty(email)) {
 
                 users.setActivationCode(UUID.randomUUID().toString());
             }
 
-            if(!ObjectUtils.isEmpty(password)){
+            if (!ObjectUtils.isEmpty(password)) {
 
                 users.setPassword(passwordEncoder.encode(password));
             }
@@ -145,24 +146,24 @@ public class UserService implements UserDetailsService {
 
         usersRepository.save(users);
 
-        if(EmailChanged) {
+        if (EmailChanged) {
 
             sendMessage(users);
         }
 
     }
-     public int topUpBalance(Users users, int amount) {
 
-         users.setBalance(users.getBalance()+amount);
-         usersRepository.save(users);
-         return users.getBalance();
+    public int topUpBalance(Users users, int amount) {
+
+        users.setBalance(users.getBalance() + amount);
+        usersRepository.save(users);
+        return users.getBalance();
     }
-
 
 
     public Users updateUserBalanceOnCheckout(Users users, Cart cart) {
 
-        users.setBalance(users.getBalance()-cart.getTotalPrice());
+        users.setBalance(users.getBalance() - cart.getTotalPrice());
         return usersRepository.save(users);
     }
 

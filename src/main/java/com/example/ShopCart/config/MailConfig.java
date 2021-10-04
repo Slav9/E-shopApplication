@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
+
 //found that at random video
 @Configuration
 public class MailConfig {
@@ -31,7 +32,7 @@ public class MailConfig {
 
 
     @Bean
-    public JavaMailSender getMailSender(){
+    public JavaMailSender getMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
         mailSender.setHost(host);
@@ -41,8 +42,8 @@ public class MailConfig {
 
         Properties properties = mailSender.getJavaMailProperties();
 
-        properties.setProperty("mail.transport.protocol",protocol);
-        properties.setProperty("mail.debug",debug);
+        properties.setProperty("mail.transport.protocol", protocol);
+        properties.setProperty("mail.debug", debug);
 
         return mailSender;
     }

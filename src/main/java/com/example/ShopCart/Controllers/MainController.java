@@ -44,7 +44,7 @@ public class MainController {
     public String catalog(Model model) {
 
         Iterable<Tovar> tovars = allgoodsRepository.findAll();
-        model.addAttribute("tovars",tovars);
+        model.addAttribute("tovars", tovars);
         return "catalog";
     }
 
@@ -53,12 +53,12 @@ public class MainController {
     @GetMapping("/catalog/add")
     public String catalogAdd(Model model) {
 
-        model.addAttribute("tovar",new Tovar());
+        model.addAttribute("tovar", new Tovar());
         return "catalog-add";
     }
 
     @PreAuthorize("hasAuthority('VENDOR')")
-    @PostMapping ("/catalog/add")
+    @PostMapping("/catalog/add")
     public String addTovar(@AuthenticationPrincipal Users user,
                            @Valid Tovar tovar,
                            BindingResult bindingResult,
@@ -66,10 +66,10 @@ public class MainController {
                            @RequestParam("file") MultipartFile file) throws IOException {
 
         tovar.setVendor(user);
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "catalog-add";
         } else {
-            fileService.CheckFileDirectoryAndAddFileName(tovar,file);
+            fileService.CheckFileDirectoryAndAddFileName(tovar, file);
             allgoodsRepository.save(tovar);
         }
         return "redirect:/catalog";
@@ -79,24 +79,24 @@ public class MainController {
     @GetMapping("/catalog/{id}/edit")
     public String catalogEdit(@PathVariable(value = "id") long id, Model model) {
 
-        Optional <Tovar> tovar= allgoodsRepository.findById(id);
-        ArrayList <Tovar> tov = new ArrayList<>();
+        Optional<Tovar> tovar = allgoodsRepository.findById(id);
+        ArrayList<Tovar> tov = new ArrayList<>();
         tovar.ifPresent(tov::add);
-        model.addAttribute("tovarList",tov);
-        model.addAttribute("Tovar",new Tovar());
+        model.addAttribute("tovarList", tov);
+        model.addAttribute("Tovar", new Tovar());
         return "catalog-edit";
     }
 
     @PreAuthorize("hasAuthority('VENDOR')")
-    @PostMapping ("/catalog/{id}/edit")
+    @PostMapping("/catalog/{id}/edit")
     public String edit(@AuthenticationPrincipal Users user,
                        @Valid Tovar tovar, BindingResult bindingResult, Model model,
-                       @RequestParam("file") MultipartFile file) throws IOException{
+                       @RequestParam("file") MultipartFile file) throws IOException {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "catalog-edit";
-        }  else  {
-            fileService.CheckFileDirectoryAndAddFileName(tovar,file);
+        } else {
+            fileService.CheckFileDirectoryAndAddFileName(tovar, file);
             //if admin redacting vendor's staff, vendorname became "admin", can't understand how to fix it atm
             tovar.setVendor(user);
             allgoodsRepository.save(tovar);

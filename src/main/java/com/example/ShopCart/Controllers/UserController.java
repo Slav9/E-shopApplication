@@ -26,56 +26,56 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
-    public String userList (Model model){
+    public String userList(Model model) {
 
-        model.addAttribute("users",userService.findAll());
+        model.addAttribute("users", userService.findAll());
         return "usersList";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("{users}")
-    public String userEditForm(@PathVariable Users users, Model model){
+    public String userEditForm(@PathVariable Users users, Model model) {
 
-        model.addAttribute("users",users);
+        model.addAttribute("users", users);
         model.addAttribute("roles", Role.values());
         return "userEdit";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public String userSave (
+    public String userSave(
             @RequestParam String username,
-            @RequestParam Map<String,String> form,
-            @RequestParam ("UserID") Users users){
+            @RequestParam Map<String, String> form,
+            @RequestParam("UserID") Users users) {
 
-        userService.saveUser (users, username, form);
+        userService.saveUser(users, username, form);
         return "redirect:/users";
     }
 
     @GetMapping("profile")
-    public String getProfile (Model model, @AuthenticationPrincipal Users users){
-        model.addAttribute("users",users);
-    return ("profile");
+    public String getProfile(Model model, @AuthenticationPrincipal Users users) {
+        model.addAttribute("users", users);
+        return ("profile");
     }
 
     @PostMapping("profile")
-    public String editProfile (@AuthenticationPrincipal Users users, @RequestParam String password, @RequestParam String email ){
+    public String editProfile(@AuthenticationPrincipal Users users, @RequestParam String password, @RequestParam String email) {
 
-        userService.editProfile(users,password,email);
+        userService.editProfile(users, password, email);
         return ("redirect:/users/profile");
     }
 
     @PostMapping("updateBalance")
-    public String updateBal (@AuthenticationPrincipal Users users, @RequestParam("amount") int amount, Model model){
+    public String updateBal(@AuthenticationPrincipal Users users, @RequestParam("amount") int amount, Model model) {
         //balance correctly updates only when user relogin, absolutely 0 ideas why this is happening
-        model.addAttribute("users",users);
+        model.addAttribute("users", users);
         userService.topUpBalance(users, amount);
         return ("profile");
     }
 
     @GetMapping("refill")
-    public String refill (@AuthenticationPrincipal Users users, Model model){
-        model.addAttribute("users",users);
+    public String refill(@AuthenticationPrincipal Users users, Model model) {
+        model.addAttribute("users", users);
         return "refill";
     }
 }

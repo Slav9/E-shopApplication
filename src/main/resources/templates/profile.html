@@ -13,21 +13,25 @@ form {
   border-radius: 1em;
 }
 
+
     </style>
 </head>
 <body>
 <div th:insert="blocks/navbar::navbar"></div>
-<h3 align="center"> Личный кабинет пользователя <span th:text="${#authentication.getPrincipal().getUsername()}"></span></h3>
+<h3 align="center"> Личный кабинет пользователя <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+</h3>
 
 <form th:action="@{/users/profile}" method="post">
 
-    <div align="center"><label> Email: <input type="email" th:value="${#authentication.getPrincipal().getEmail()}" name="email"/></label></div>
+    <div align="center"><label> Email: <input type="email" th:value="${#authentication.getPrincipal().getEmail()}"
+                                              name="email"/></label></div>
 
     <div align="center"><label> Password: <input type="password" name="password"/> </label></div>
 
-    <div align="center"><button type="submit" class="btn btn-success">Сохранить изменения</button></div>
+    <div align="center">
+        <button type="submit" class="btn btn-success">Сохранить изменения</button>
+    </div>
 </form>
-
 
 
 </body>

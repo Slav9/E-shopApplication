@@ -6,8 +6,8 @@
 </head>
 <body>
 <form th:action="@{/users}" method="post" th:object="${users}">
-        <input type="hidden" th:value="*{id}" name="UserID">
-        <input type="text" th:value="*{username}" name="username">
+    <input type="hidden" th:value="*{id}" name="UserID">
+    <input type="text" th:value="*{username}" name="username">
     <div th:each="el:${roles}">
         <input type="checkbox" th:name="${el}" th:checked="${#lists.contains(users.roles, el)}"
                th:utext="${el}">

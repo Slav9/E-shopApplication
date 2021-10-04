@@ -19,24 +19,24 @@ public class RegistrationController {
     private UserService userService;
 
     @GetMapping("/registration")
-    public String registration(Model model){
+    public String registration(Model model) {
 
-        model.addAttribute("users",new Users());
+        model.addAttribute("users", new Users());
         return ("registration");
     }
 
     @PostMapping("/registration")
-    public String addUser(@Valid Users user, BindingResult bindingResult, Model model){
+    public String addUser(@Valid Users user, BindingResult bindingResult, Model model) {
 
-            if(bindingResult.hasErrors()||!userService.addUser(user)) {
+        if (bindingResult.hasErrors() || !userService.addUser(user)) {
             return "registration";
         } else {
-                return "redirect:/login";
-            }
+            return "redirect:/login";
+        }
     }
 
     @GetMapping("/activate/{code}")
-    public String activate (Model model, @PathVariable String code){
+    public String activate(Model model, @PathVariable String code) {
 
         boolean isActivated = userService.activateUser(code);
         return "login";
